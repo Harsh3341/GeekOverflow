@@ -6,8 +6,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import service from '../appwrite/service';
+import {useState} from 'react';
 
 const Register = ({navigation}: any): JSX.Element => {
+  const [credintials, setCredintials] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: {target: {name: any; value: any}}) => {
+    setCredintials({...credintials, [e.target.name]: e.target.value});
+  };
+
+  // const handleRegister = async () => {
+  //   try {
+  //     await service.createAccount(
+  //       credintials
+
   return (
     <View style={styles.container}>
       <View>
@@ -39,6 +56,9 @@ const Register = ({navigation}: any): JSX.Element => {
                 padding: 10,
               }}
               placeholder="Name"
+              onChangeText={value =>
+                handleChange({target: {name: 'name', value}})
+              }
             />
             <TextInput
               style={{
@@ -51,6 +71,9 @@ const Register = ({navigation}: any): JSX.Element => {
                 padding: 10,
               }}
               placeholder="Email"
+              onChangeText={value =>
+                handleChange({target: {name: 'email', value}})
+              }
             />
             <TextInput
               style={{
@@ -64,6 +87,9 @@ const Register = ({navigation}: any): JSX.Element => {
               }}
               placeholder="Password"
               secureTextEntry={true}
+              onChangeText={value =>
+                handleChange({target: {name: 'password', value}})
+              }
             />
           </View>
 

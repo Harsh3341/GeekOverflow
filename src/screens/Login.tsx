@@ -6,8 +6,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import service from '../appwrite/service';
+import {useState} from 'react';
 
 const Home = ({navigation}: any): JSX.Element => {
+  const [credintials, setCredintials] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: {target: {name: any; value: any}}) => {
+    setCredintials({...credintials, [e.target.name]: e.target.value});
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -39,6 +50,9 @@ const Home = ({navigation}: any): JSX.Element => {
                 padding: 10,
               }}
               placeholder="Email"
+              onChangeText={value =>
+                handleChange({target: {name: 'email', value}})
+              }
             />
             <TextInput
               style={{
@@ -52,6 +66,9 @@ const Home = ({navigation}: any): JSX.Element => {
               }}
               placeholder="Password"
               secureTextEntry={true}
+              onChangeText={value =>
+                handleChange({target: {name: 'password', value}})
+              }
             />
           </View>
           <Text
