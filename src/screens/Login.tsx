@@ -1,15 +1,23 @@
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import service from '../appwrite/service';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
+import {AppwriteContext} from '../appwrite/AppwriteContext';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthStackParamList} from '../routes/AuthStack';
+import Snackbar from 'react-native-snackbar';
 
-const Home = ({navigation}: any): JSX.Element => {
+type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
+
+const Home = ({navigation}: LoginScreenProps): JSX.Element => {
+  const {appwrite, setIsLoggedIn} = useContext(AppwriteContext);
+  const [error, setError] = useState<string>('');
+
   const [credintials, setCredintials] = useState({
     email: '',
     password: '',
@@ -19,6 +27,31 @@ const Home = ({navigation}: any): JSX.Element => {
     setCredintials({...credintials, [e.target.name]: e.target.value});
   };
 
+  const handleLogin = () => {
+    if (credintials.email.length < 1 || credintials.password.length < 1) {
+      setError('Please fill all the fields');
+    } else {
+      const user = {
+        email: credintials.email,
+        password: credintials.password,
+      };
+      appwrite
+        .login(user)
+        .then((res: any) => {
+          if (res) {
+            setIsLoggedIn(true);
+            Snackbar.show({
+              text: 'Logged in successfully',
+              duration: Snackbar.LENGTH_SHORT,
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setError('Invalid credintials');
+        });
+    }
+  };
   return (
     <View style={styles.container}>
       <View>
@@ -50,9 +83,10 @@ const Home = ({navigation}: any): JSX.Element => {
                 padding: 10,
               }}
               placeholder="Email"
-              onChangeText={value =>
-                handleChange({target: {name: 'email', value}})
-              }
+              onChangeText={value => {
+                handleChange({target: {name: 'email', value}});
+                setError('');
+              }}
             />
             <TextInput
               style={{
@@ -66,9 +100,10 @@ const Home = ({navigation}: any): JSX.Element => {
               }}
               placeholder="Password"
               secureTextEntry={true}
-              onChangeText={value =>
-                handleChange({target: {name: 'password', value}})
-              }
+              onChangeText={value => {
+                handleChange({target: {name: 'password', value}});
+                setError('');
+              }}
             />
           </View>
           <Text
@@ -81,8 +116,8 @@ const Home = ({navigation}: any): JSX.Element => {
             }}>
             Forgot Password?
           </Text>
-
-          <TouchableOpacity style={styles.buttons}>
+          {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+          <Pressable style={styles.buttons} onPress={handleLogin}>
             <Text
               style={{
                 color: 'white',
@@ -91,7 +126,7 @@ const Home = ({navigation}: any): JSX.Element => {
               }}>
               Sign In
             </Text>
-          </TouchableOpacity>
+          </Pressable>
           <View
             style={{
               borderBottomColor: 'black',
@@ -112,7 +147,7 @@ const Home = ({navigation}: any): JSX.Element => {
             }}>
             New User?
           </Text>
-          <TouchableOpacity
+          <Pressable
             style={styles.buttons}
             onPress={() => navigation.navigate('Register')}>
             <Text
@@ -123,7 +158,7 @@ const Home = ({navigation}: any): JSX.Element => {
               }}>
               Sign Up
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </View>

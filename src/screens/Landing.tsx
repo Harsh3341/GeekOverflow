@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 const Landing = ({navigation}: any): JSX.Element => {
   return (
@@ -16,7 +16,7 @@ const Landing = ({navigation}: any): JSX.Element => {
             height: 154,
           }}
         />
-        <TouchableOpacity
+        <Pressable
           style={styles.buttons}
           onPress={() => {
             navigation.navigate('Login');
@@ -29,7 +29,7 @@ const Landing = ({navigation}: any): JSX.Element => {
             }}>
             Get Started
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

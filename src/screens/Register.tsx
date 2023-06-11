@@ -1,29 +1,71 @@
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import service from '../appwrite/service';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
+import {AppwriteContext} from '../appwrite/AppwriteContext';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthStackParamList} from '../routes/AuthStack';
+import Snackbar from 'react-native-snackbar';
 
-const Register = ({navigation}: any): JSX.Element => {
+type RegiterScreenProps = NativeStackScreenProps<
+  AuthStackParamList,
+  'Register'
+>;
+
+const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
+  const {appwrite, setIsLoggedIn} = useContext(AppwriteContext);
+
+  const [error, setError] = useState<string>('');
+
   const [credintials, setCredintials] = useState({
     name: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
+
+  const handleRegister = () => {
+    if (
+      credintials.name.length < 1 ||
+      credintials.email.length < 1 ||
+      credintials.password.length < 1 ||
+      credintials.confirmPassword.length < 1
+    ) {
+      setError('Please fill all the fields');
+    } else if (credintials.password !== credintials.confirmPassword) {
+      setError('Passwords do not match');
+    } else {
+      const user = {
+        name: credintials.name,
+        email: credintials.email,
+        password: credintials.password,
+      };
+      appwrite
+        .createAccount(user)
+        .then((res: any) => {
+          if (res) {
+            setIsLoggedIn(true);
+            Snackbar.show({
+              text: 'Registered successfully',
+              duration: Snackbar.LENGTH_SHORT,
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setError(err.message);
+        });
+    }
+  };
 
   const handleChange = (e: {target: {name: any; value: any}}) => {
     setCredintials({...credintials, [e.target.name]: e.target.value});
   };
-
-  // const handleRegister = async () => {
-  //   try {
-  //     await service.createAccount(
-  //       credintials
 
   return (
     <View style={styles.container}>
@@ -56,9 +98,10 @@ const Register = ({navigation}: any): JSX.Element => {
                 padding: 10,
               }}
               placeholder="Name"
-              onChangeText={value =>
-                handleChange({target: {name: 'name', value}})
-              }
+              onChangeText={value => {
+                handleChange({target: {name: 'name', value}});
+                setError('');
+              }}
             />
             <TextInput
               style={{
@@ -71,9 +114,10 @@ const Register = ({navigation}: any): JSX.Element => {
                 padding: 10,
               }}
               placeholder="Email"
-              onChangeText={value =>
-                handleChange({target: {name: 'email', value}})
-              }
+              onChangeText={value => {
+                handleChange({target: {name: 'email', value}});
+                setError('');
+              }}
             />
             <TextInput
               style={{
@@ -87,13 +131,31 @@ const Register = ({navigation}: any): JSX.Element => {
               }}
               placeholder="Password"
               secureTextEntry={true}
-              onChangeText={value =>
-                handleChange({target: {name: 'password', value}})
-              }
+              onChangeText={value => {
+                handleChange({target: {name: 'password', value}});
+                setError('');
+              }}
+            />
+            <TextInput
+              style={{
+                height: 40,
+                borderColor: '#BCBBBB',
+                borderLeftWidth: 5,
+                borderRightWidth: 5,
+                borderBottomWidth: 5,
+                width: 246,
+                padding: 10,
+              }}
+              placeholder="Confirm Password"
+              secureTextEntry={true}
+              onChangeText={value => {
+                handleChange({target: {name: 'confirmPassword', value}});
+                setError('');
+              }}
             />
           </View>
-
-          <TouchableOpacity style={styles.buttons}>
+          {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+          <Pressable style={styles.buttons} onPress={handleRegister}>
             <Text
               style={{
                 color: 'white',
@@ -102,7 +164,7 @@ const Register = ({navigation}: any): JSX.Element => {
               }}>
               Sign Up
             </Text>
-          </TouchableOpacity>
+          </Pressable>
           <View
             style={{
               borderBottomColor: 'black',
@@ -113,6 +175,7 @@ const Register = ({navigation}: any): JSX.Element => {
               borderWidth: 0.5,
             }}
           />
+
           <Text
             style={{
               width: 246,
@@ -123,7 +186,7 @@ const Register = ({navigation}: any): JSX.Element => {
             }}>
             Already A User?
           </Text>
-          <TouchableOpacity
+          <Pressable
             style={styles.buttons}
             onPress={() => navigation.navigate('Login')}>
             <Text
@@ -134,7 +197,7 @@ const Register = ({navigation}: any): JSX.Element => {
               }}>
               Sign In
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </View>

@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import {FC, PropsWithChildren, createContext, useState} from 'react';
 
 import Appwrite from './service';

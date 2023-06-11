@@ -47,7 +47,7 @@ class AppwriteService {
       }
     } catch (error) {
       Snackbar.show({
-        text: String(error),
+        text: 'invalid email or password',
         duration: Snackbar.LENGTH_LONG,
       });
       console.log('Appwrite service :: createAccount() :: ' + error);
@@ -63,7 +63,7 @@ class AppwriteService {
       return userAccount;
     } catch (error) {
       Snackbar.show({
-        text: String(error),
+        text: 'invalid email or password',
         duration: Snackbar.LENGTH_LONG,
       });
       console.log('Appwrite service :: loginAccount() :: ' + error);
