@@ -40,13 +40,13 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
     } else if (credintials.password !== credintials.confirmPassword) {
       setError('Passwords do not match');
     } else {
-      const user = {
+      const data = {
         name: credintials.name,
         email: credintials.email,
         password: credintials.password,
       };
       appwrite
-        .createAccount(user)
+        .createAccount(data)
         .then((res: any) => {
           if (res) {
             setIsLoggedIn(true);

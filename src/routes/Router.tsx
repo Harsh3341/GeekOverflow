@@ -10,22 +10,25 @@ import {AppStack} from './AppStack';
 
 export const Router = () => {
   const [isloading, setIsLoading] = useState<boolean>(true);
-  const {appwrite, isLoggedIn, setIsLoggedIn} = useContext(AppwriteContext);
+  const {appwrite, isLoggedIn, setIsLoggedIn, setUser} =
+    useContext(AppwriteContext);
 
   useEffect(() => {
     appwrite
       .getCurrentUser()
       .then(response => {
         setIsLoading(false);
+
         if (response) {
           setIsLoggedIn(true);
+          setUser(response);
         }
       })
       .catch(error => {
         setIsLoading(false);
         setIsLoggedIn(false);
       });
-  }, [appwrite, setIsLoggedIn]);
+  }, [appwrite, setIsLoggedIn, setUser]);
 
   if (isloading) {
     return <Loading />;

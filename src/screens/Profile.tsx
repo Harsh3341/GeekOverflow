@@ -4,36 +4,18 @@ import {useContext, useEffect, useState} from 'react';
 
 import {AppwriteContext} from '../appwrite/AppwriteContext';
 
-type UserObj = {
-  email: string;
-  name: String;
-};
-
 const Profile = ({navigation}: any): JSX.Element => {
-  const [user, setUser] = useState<UserObj>();
-  const {appwrite, setIsLoggedIn} = useContext(AppwriteContext);
-
+  const {appwrite, setIsLoggedIn, user, setUser} = useContext(AppwriteContext);
   const handleLogout = () => {
     appwrite.logout().then(() => {
       setIsLoggedIn(false);
+      setUser(null);
       Snackbar.show({
         text: 'Logged out successfully',
         duration: Snackbar.LENGTH_SHORT,
       });
     });
   };
-
-  useEffect(() => {
-    appwrite.getCurrentUser().then(res => {
-      if (res) {
-        const user: UserObj = {
-          email: res.email,
-          name: res.name,
-        };
-        setUser(user);
-      }
-    });
-  }, [appwrite]);
 
   return (
     <View style={styles.container}>
