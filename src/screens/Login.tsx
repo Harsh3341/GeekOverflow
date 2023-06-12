@@ -14,7 +14,7 @@ import Snackbar from 'react-native-snackbar';
 
 type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
-const Home = ({navigation}: LoginScreenProps): JSX.Element => {
+const Login = ({navigation}: LoginScreenProps): JSX.Element => {
   const {appwrite, setIsLoggedIn} = useContext(AppwriteContext);
   const [error, setError] = useState<string>('');
 
@@ -186,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Login;

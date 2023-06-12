@@ -1,5 +1,4 @@
-import {View, Text} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
 import {AppwriteContext} from '../appwrite/AppwriteContext';

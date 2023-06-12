@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import {useContext, useEffect, useState} from 'react';
 
@@ -9,7 +9,7 @@ type UserObj = {
   name: String;
 };
 
-const Home = ({navigation}: any): JSX.Element => {
+const Profile = ({navigation}: any): JSX.Element => {
   const [user, setUser] = useState<UserObj>();
   const {appwrite, setIsLoggedIn} = useContext(AppwriteContext);
 
@@ -43,9 +43,9 @@ const Home = ({navigation}: any): JSX.Element => {
           <Text>Email:{user.email}</Text>
         </View>
       )}
-      <TouchableOpacity style={styles.buttons} onPress={handleLogout}>
+      <Pressable style={styles.buttons} onPress={handleLogout}>
         <Text style={{color: 'white'}}>Logout</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Profile;

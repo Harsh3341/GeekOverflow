@@ -1,9 +1,9 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import Home from '../screens/Home';
+import Navbar from '../components/Navbar';
 
 export type AppStackParamList = {
-  Home: undefined;
+  Navbar: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -12,8 +12,8 @@ export const AppStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
-        component={Home}
+        name="Navbar"
+        component={Navbar}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
