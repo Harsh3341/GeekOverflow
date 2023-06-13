@@ -18,7 +18,7 @@ const Feed = ({navigation}: FeedProps) => {
     try {
       const data = {
         databaseId: Config.APPWRITE_DATABASE_ID,
-        collectionId: Config.APPWRITE_COLLECTION_ID,
+        collectionId: Config.APPWRITE_QUESTIONS_COLLECTION_ID,
         queries: [Query.orderDesc('$createdAt')],
       };
 

@@ -8,6 +8,7 @@ import {UpdateDocument} from '../appwrite/service';
 import Loading from './Loading';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppStackParamList} from '../routes/AppStack';
+import {Query} from 'appwrite';
 
 type EditPostProps = NativeStackScreenProps<AppStackParamList, 'Edit'>;
 
@@ -42,7 +43,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
       };
       const data: UpdateDocument = {
         databaseId: Config.APPWRITE_DATABASE_ID,
-        collectionId: Config.APPWRITE_COLLECTION_ID,
+        collectionId: Config.APPWRITE_QUESTIONS_COLLECTION_ID,
         data: updatedQuestion,
         documentId: question.$id,
       };
@@ -75,13 +76,43 @@ const EditPost = ({navigation, route}: EditPostProps) => {
 
   const handleDelete = () => {
     setIsLoading(true);
+
     const data = {
       databaseId: Config.APPWRITE_DATABASE_ID,
-      collectionId: Config.APPWRITE_COLLECTION_ID,
+      collectionId: Config.APPWRITE_COMMENTS_COLLECTION_ID,
+      queries: [Query.equal('questionId', question.$id)],
+    };
+
+    appwrite.listDocuments(data).then((res: any) => {
+      if (res) {
+        res.documents.forEach((comment: any) => {
+          const data = {
+            databaseId: Config.APPWRITE_DATABASE_ID,
+            collectionId: Config.APPWRITE_COMMENTS_COLLECTION_ID,
+            documentId: comment.$id,
+          };
+          appwrite
+            .deleteDocument(data)
+            .then((res: any) => {
+              if (res) {
+                console.log('Comment deleted successfully');
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              setIsLoading(false);
+              setError('Something went wrong');
+            });
+        });
+      }
+    });
+    const data2 = {
+      databaseId: Config.APPWRITE_DATABASE_ID,
+      collectionId: Config.APPWRITE_QUESTIONS_COLLECTION_ID,
       documentId: question.$id,
     };
     appwrite
-      .deleteDocument(data)
+      .deleteDocument(data2)
       .then((res: any) => {
         if (res) {
           Snackbar.show({
