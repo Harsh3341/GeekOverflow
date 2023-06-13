@@ -3,22 +3,23 @@ import React, {useContext, useEffect, useState} from 'react';
 import FeedPost from '../components/FeedPost';
 import {AppwriteContext} from '../appwrite/AppwriteContext';
 import {Config} from '../utils/config';
+import {Query} from 'appwrite';
 
-type Question = {
-  $id: string;
-  title: string;
+type FeedProps = {
+  navigation: any;
 };
 
-const Feed = () => {
+const Feed = ({navigation}: FeedProps) => {
   const {appwrite, stale, setStale} = useContext(AppwriteContext);
 
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<any[]>([]);
 
   useEffect(() => {
     try {
       const data = {
         databaseId: Config.APPWRITE_DATABASE_ID,
         collectionId: Config.APPWRITE_COLLECTION_ID,
+        queries: [Query.orderDesc('$createdAt')],
       };
 
       appwrite.listDocuments(data).then((res: any) => {
@@ -53,8 +54,12 @@ const Feed = () => {
             marginVertical: 20,
           }}
           showsVerticalScrollIndicator={false}>
-          {questions.map((question: Question) => (
-            <FeedPost key={question.$id} title={question.title} />
+          {questions.map((question: any) => (
+            <FeedPost
+              key={question.$id}
+              question={question}
+              navigation={navigation}
+            />
           ))}
         </ScrollView>
       </View>

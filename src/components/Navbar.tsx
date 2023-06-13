@@ -7,7 +7,7 @@ import Icon2 from 'react-native-vector-icons/Ionicons';
 
 const Tab = createMaterialBottomTabNavigator();
 
-const Navbar = () => {
+const Navbar = ({navigation}: any) => {
   return (
     <Tab.Navigator
       initialRouteName="Feed"

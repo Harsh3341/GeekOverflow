@@ -1,11 +1,24 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import {useContext, useEffect, useState} from 'react';
 
 import {AppwriteContext} from '../appwrite/AppwriteContext';
+import {Config} from '../utils/config';
+import {Query} from 'appwrite';
+import UserPost from '../components/UserPost';
 
 const Profile = ({navigation}: any): JSX.Element => {
-  const {appwrite, setIsLoggedIn, user, setUser} = useContext(AppwriteContext);
+  const {appwrite, setIsLoggedIn, user, setUser, stale, setStale} =
+    useContext(AppwriteContext);
+
+  const [questions, setQuestions] = useState<any[]>([]);
   const handleLogout = () => {
     appwrite.logout().then(() => {
       setIsLoggedIn(false);
@@ -17,6 +30,29 @@ const Profile = ({navigation}: any): JSX.Element => {
     });
   };
 
+  useEffect(() => {
+    try {
+      const data = {
+        databaseId: Config.APPWRITE_DATABASE_ID,
+        collectionId: Config.APPWRITE_COLLECTION_ID,
+        queries: [
+          Query.equal('userId', user.$id),
+          Query.orderDesc('$createdAt'),
+        ],
+      };
+
+      appwrite.listDocuments(data).then((res: any) => {
+        if (res.documents) {
+          setQuestions(res.documents);
+
+          setStale(false);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [stale]);
+
   return (
     <View style={styles.container}>
       {user && (
@@ -25,6 +61,20 @@ const Profile = ({navigation}: any): JSX.Element => {
           <Text>Email:{user.email}</Text>
         </View>
       )}
+
+      <ScrollView
+        style={{
+          marginVertical: 20,
+        }}
+        showsVerticalScrollIndicator={false}>
+        {questions.map((question: any) => (
+          <UserPost
+            key={question.$id}
+            question={question}
+            navigation={navigation}
+          />
+        ))}
+      </ScrollView>
       <Pressable style={styles.buttons} onPress={handleLogout}>
         <Text style={{color: 'white'}}>Logout</Text>
       </Pressable>

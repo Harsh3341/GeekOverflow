@@ -29,14 +29,15 @@ export type CreateDocument = {
 type ListDocuments = {
   databaseId: string;
   collectionId: string;
+  queries?: string[];
 };
 
-type UpdateDocument = {
+export type UpdateDocument = {
   databaseId: string;
   collectionId: string;
   documentId: string;
   data: any;
-  permissions: string[];
+  permissions?: string[];
 };
 
 type DeleteDocument = {
@@ -135,11 +136,12 @@ class AppwriteService {
     }
   }
 
-  async listDocuments({databaseId, collectionId}: ListDocuments) {
+  async listDocuments({databaseId, collectionId, queries}: ListDocuments) {
     try {
       const documents = await this.database.listDocuments(
         databaseId,
         collectionId,
+        queries,
       );
       return documents;
     } catch (error) {

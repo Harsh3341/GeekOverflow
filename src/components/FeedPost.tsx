@@ -1,22 +1,24 @@
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import React from 'react';
 
 type FeedPostProps = {
-  title: string;
+  question: any;
+  navigation: any;
 };
 
-const FeedPost = ({title}: FeedPostProps) => {
+const FeedPost = ({question, navigation}: FeedPostProps) => {
   return (
-    <View
+    <Pressable
       style={{
         backgroundColor: '#ffffff',
         padding: 20,
         borderRadius: 10,
         marginTop: 20,
         height: 100,
-      }}>
-      <Text>{title}</Text>
-    </View>
+      }}
+      onPress={() => navigation.navigate('Post', {question})}>
+      <Text>{question.title}</Text>
+    </Pressable>
   );
 };
 

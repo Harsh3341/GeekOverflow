@@ -4,22 +4,26 @@ import {Pressable} from 'react-native';
 import {AppwriteContext} from '../appwrite/AppwriteContext';
 import Snackbar from 'react-native-snackbar';
 import {Config} from '../utils/config';
-import {CreateDocument} from '../appwrite/service';
+import {UpdateDocument} from '../appwrite/service';
+import Loading from './Loading';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AppStackParamList} from '../routes/AppStack';
 
-import {Permission, Role} from 'appwrite';
-import Loading from '../components/Loading';
+type EditPostProps = NativeStackScreenProps<AppStackParamList, 'Edit'>;
 
-const Create = () => {
+const EditPost = ({navigation, route}: EditPostProps) => {
   const {appwrite, user, setStale} = useContext(AppwriteContext);
   const [isloading, setIsLoading] = useState<boolean>(false);
 
-  const [title, setTitle] = useState<string>('');
-  const [details, setDetails] = useState<string>('');
-  const [tryDetails, setTryDetails] = useState<string>('');
-  const [tags, setTags] = useState<string>('');
+  const {question} = route.params;
+
+  const [title, setTitle] = useState<string>(question.title);
+  const [details, setDetails] = useState<string>(question.details);
+  const [tryDetails, setTryDetails] = useState<string>(question.tryDetails);
+  const [tags, setTags] = useState<string>(question.tags);
   const [error, setError] = useState<string>('');
 
-  const handleCreate = () => {
+  const handleUpdate = () => {
     if (
       title.length < 1 ||
       details.length < 1 ||
@@ -29,31 +33,26 @@ const Create = () => {
       setError('Please fill all the fields');
     } else {
       setIsLoading(true);
-      const question = {
+      const updatedQuestion = {
         title: title,
         details: details,
         tags: tags,
         tryDetails: tryDetails,
         userId: user.$id,
       };
-      const data: CreateDocument = {
+      const data: UpdateDocument = {
         databaseId: Config.APPWRITE_DATABASE_ID,
         collectionId: Config.APPWRITE_COLLECTION_ID,
-        data: question,
-        permissions: [
-          Permission.read(Role.any()),
-          Permission.write(Role.user(user.$id)),
-          Permission.delete(Role.user(user.$id)),
-          Permission.update(Role.user(user.$id)),
-        ],
+        data: updatedQuestion,
+        documentId: question.$id,
       };
 
       appwrite
-        .createDocument(data)
+        .updateDocument(data)
         .then((res: any) => {
           if (res) {
             Snackbar.show({
-              text: 'Question created successfully',
+              text: 'Question updated successfully',
               duration: Snackbar.LENGTH_SHORT,
             });
             setTitle('');
@@ -63,6 +62,7 @@ const Create = () => {
             setError('');
             setIsLoading(false);
             setStale(true);
+            navigation.navigate('Navbar');
           }
         })
         .catch(err => {
@@ -73,6 +73,33 @@ const Create = () => {
     }
   };
 
+  const handleDelete = () => {
+    setIsLoading(true);
+    const data = {
+      databaseId: Config.APPWRITE_DATABASE_ID,
+      collectionId: Config.APPWRITE_COLLECTION_ID,
+      documentId: question.$id,
+    };
+    appwrite
+      .deleteDocument(data)
+      .then((res: any) => {
+        if (res) {
+          Snackbar.show({
+            text: 'Question deleted successfully',
+            duration: Snackbar.LENGTH_SHORT,
+          });
+          setIsLoading(false);
+          setStale(true);
+          navigation.navigate('Navbar');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+        setError('Something went wrong');
+      });
+  };
+
   useEffect(() => {
     if (error) {
       Snackbar.show({
@@ -81,7 +108,7 @@ const Create = () => {
       });
       setError('');
     }
-  }, [error, isloading]);
+  }, [error, isloading, route.params?.question]);
 
   if (isloading) {
     return <Loading />;
@@ -95,14 +122,36 @@ const Create = () => {
         padding: 20,
       }}>
       <View>
-        <Text
+        <View
           style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            color: '#ffffff',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
-          Ask a Question
-        </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              color: '#ffffff',
+            }}>
+            Edit
+          </Text>
+          <Pressable
+            style={{
+              marginTop: 20,
+              backgroundColor: '#000000',
+              padding: 5,
+              borderRadius: 5,
+            }}
+            onPress={handleDelete}>
+            <Text
+              style={{
+                color: '#ffffff',
+              }}>
+              Delete
+            </Text>
+          </Pressable>
+        </View>
         <ScrollView
           style={{
             marginVertical: 20,
@@ -214,12 +263,12 @@ const Create = () => {
                 borderRadius: 10,
                 alignItems: 'center',
               }}
-              onPress={handleCreate}>
+              onPress={handleUpdate}>
               <Text
                 style={{
                   color: '#ffffff',
                 }}>
-                Post
+                Update
               </Text>
             </Pressable>
           </View>
@@ -229,4 +278,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default EditPost;
