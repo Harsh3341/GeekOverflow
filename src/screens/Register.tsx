@@ -1,5 +1,6 @@
 import {
   Image,
+  ImageBackground,
   Pressable,
   StyleSheet,
   Text,
@@ -68,34 +69,60 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Image
-          source={require('../assets/Heading(Logo).png')}
+    <ImageBackground
+      source={require('../assets/Bg.jpg')}
+      resizeMode="cover"
+      blurRadius={10}
+      imageStyle={{opacity: 0.5}}>
+      <View style={styles.container}>
+        <Text
           style={{
-            width: 272,
-            height: 154,
-          }}
-        />
+            fontSize: 30,
+            fontWeight: 'bold',
+            color: 'black',
+            opacity: 0.5,
+            marginBottom: 20,
+          }}>
+          Register
+        </Text>
         <View
           style={{
             marginTop: 50,
             justifyContent: 'center',
             alignItems: 'center',
+            backgroundColor: '#F2F2F2',
+            borderRadius: 20,
+            paddingVertical: 20,
+            width: '90%',
+            elevation: 10,
+            shadowOffset: {width: 10, height: 10},
+            shadowColor: 'black',
+            shadowOpacity: 1.0,
           }}>
           <View
             style={{
               gap: 10,
+              width: '80%',
             }}>
+            <Text
+              style={{
+                width: 246,
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+              }}>
+              Name
+            </Text>
             <TextInput
               style={{
-                height: 40,
-                borderColor: '#BCBBBB',
-                borderLeftWidth: 5,
-                borderRightWidth: 5,
-                borderBottomWidth: 5,
-                width: 246,
-                padding: 10,
+                width: '100%',
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+                borderBottomColor: 'black',
+                borderBottomWidth: StyleSheet.hairlineWidth,
               }}
               placeholder="Name"
               onChangeText={value => {
@@ -103,15 +130,25 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
                 setError('');
               }}
             />
+            <Text
+              style={{
+                width: 246,
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+              }}>
+              Your Email Address
+            </Text>
             <TextInput
               style={{
-                height: 40,
-                borderColor: '#BCBBBB',
-                borderLeftWidth: 5,
-                borderRightWidth: 5,
-                borderBottomWidth: 5,
-                width: 246,
-                padding: 10,
+                width: '100%',
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+                borderBottomColor: 'black',
+                borderBottomWidth: StyleSheet.hairlineWidth,
               }}
               placeholder="Email"
               onChangeText={value => {
@@ -119,15 +156,25 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
                 setError('');
               }}
             />
+            <Text
+              style={{
+                width: 246,
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+              }}>
+              Password
+            </Text>
             <TextInput
               style={{
-                height: 40,
-                borderColor: '#BCBBBB',
-                borderLeftWidth: 5,
-                borderRightWidth: 5,
-                borderBottomWidth: 5,
-                width: 246,
-                padding: 10,
+                width: '100%',
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+                borderBottomColor: 'black',
+                borderBottomWidth: StyleSheet.hairlineWidth,
               }}
               placeholder="Password"
               secureTextEntry={true}
@@ -136,15 +183,25 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
                 setError('');
               }}
             />
+            <Text
+              style={{
+                width: 246,
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+              }}>
+              Confirm Password
+            </Text>
             <TextInput
               style={{
-                height: 40,
-                borderColor: '#BCBBBB',
-                borderLeftWidth: 5,
-                borderRightWidth: 5,
-                borderBottomWidth: 5,
-                width: 246,
-                padding: 10,
+                width: '100%',
+                color: 'black',
+                opacity: 0.5,
+                fontSize: 15,
+                fontWeight: 'bold',
+                borderBottomColor: 'black',
+                borderBottomWidth: StyleSheet.hairlineWidth,
               }}
               placeholder="Confirm Password"
               secureTextEntry={true}
@@ -200,17 +257,14 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
           </Pressable>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFF3C7',
     height: '100%',
     width: '100%',
-    paddingHorizontal: 43,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -221,7 +275,7 @@ const styles = StyleSheet.create({
     borderRadius: 27,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 35,
+    marginTop: 20,
   },
 });
 

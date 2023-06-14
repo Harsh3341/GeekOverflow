@@ -1,5 +1,6 @@
 import {
   Image,
+  ImageBackground,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -54,42 +55,93 @@ const Profile = ({navigation}: any): JSX.Element => {
   }, [stale]);
 
   return (
-    <View style={styles.container}>
-      {user && (
-        <View>
-          <Text>Name:{user.name}</Text>
-          <Text>Email:{user.email}</Text>
-        </View>
-      )}
+    <ImageBackground
+      source={require('../assets/Bg.jpg')}
+      resizeMode="cover"
+      blurRadius={18}
+      imageStyle={{opacity: 0.4}}>
+      <View style={styles.container}>
+        <Text
+          style={{
+            fontSize: 30,
+            fontWeight: 'bold',
+            color: 'black',
+            opacity: 0.5,
+            marginBottom: 20,
+          }}>
+          Profile
+        </Text>
+        {user && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 20,
+            }}>
+            <Image
+              source={require('../assets/art.png')}
+              style={{height: 50, width: 50, borderRadius: 25}}
+            />
+            <View style={{marginLeft: 20}}>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+                {user.name}
+              </Text>
+              <Text style={{fontSize: 16}}>{user.email}</Text>
 
-      <ScrollView
-        style={{
-          marginVertical: 20,
-        }}
-        showsVerticalScrollIndicator={false}>
-        {questions.map((question: any) => (
-          <UserPost
-            key={question.$id}
-            question={question}
-            navigation={navigation}
-          />
-        ))}
-      </ScrollView>
-      <Pressable style={styles.buttons} onPress={handleLogout}>
-        <Text style={{color: 'white'}}>Logout</Text>
-      </Pressable>
-    </View>
+              <Text style={{fontSize: 16}}>{questions.length} questions</Text>
+            </View>
+
+            <Pressable
+              style={{
+                backgroundColor: 'black',
+                borderRadius: 23,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 'auto',
+                paddingHorizontal: 20,
+                paddingVertical: 10,
+              }}
+              onPress={() => navigation.navigate('Create')}>
+              <Text style={{color: 'white'}}>edit profile</Text>
+            </Pressable>
+          </View>
+        )}
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: 'black',
+            opacity: 0.5,
+            marginTop: 20,
+          }}>
+          Your Questions
+        </Text>
+        <ScrollView
+          style={{
+            marginVertical: 20,
+          }}
+          showsVerticalScrollIndicator={false}>
+          {questions.map((question: any) => (
+            <UserPost
+              key={question.$id}
+              question={question}
+              navigation={navigation}
+            />
+          ))}
+        </ScrollView>
+        <Pressable style={styles.buttons} onPress={handleLogout}>
+          <Text style={{color: 'white'}}>Logout</Text>
+        </Pressable>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFF3C7',
     height: '100%',
-    paddingHorizontal: 43,
+    padding: 20,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   buttons: {
     backgroundColor: 'black',
