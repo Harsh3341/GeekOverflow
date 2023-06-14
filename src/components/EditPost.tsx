@@ -1,4 +1,4 @@
-import {View, Text, TextInput, ScrollView} from 'react-native';
+import {View, Text, TextInput, ScrollView, ImageBackground} from 'react-native';
 import {useState, useContext, useEffect} from 'react';
 import {Pressable} from 'react-native';
 import {AppwriteContext} from '../appwrite/AppwriteContext';
@@ -93,11 +93,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
           };
           appwrite
             .deleteDocument(data)
-            .then((res: any) => {
-              if (res) {
-                console.log('Comment deleted successfully');
-              }
-            })
+            .then((res: any) => {})
             .catch(err => {
               console.log(err);
               setIsLoading(false);
@@ -146,33 +142,38 @@ const EditPost = ({navigation, route}: EditPostProps) => {
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#a0a0a0',
-        padding: 20,
-      }}>
-      <View>
+    <ImageBackground
+      source={require('../assets/Bg.jpg')}
+      resizeMode="cover"
+      blurRadius={18}
+      imageStyle={{opacity: 0.4}}>
+      <View
+        style={{
+          padding: 20,
+        }}>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            marginBottom: 20,
           }}>
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 30,
               fontWeight: 'bold',
-              color: '#ffffff',
+              color: 'black',
+              opacity: 0.5,
             }}>
             Edit
           </Text>
           <Pressable
             style={{
-              marginTop: 20,
               backgroundColor: '#000000',
               padding: 5,
               borderRadius: 5,
+              width: '20%',
+              alignItems: 'center',
             }}
             onPress={handleDelete}>
             <Text
@@ -185,7 +186,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
         </View>
         <ScrollView
           style={{
-            marginVertical: 20,
+            marginBottom: 150,
           }}
           showsVerticalScrollIndicator={false}>
           <View
@@ -195,7 +196,15 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               borderRadius: 10,
               marginTop: 20,
             }}>
-            <Text>Title</Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                color: 'black',
+                opacity: 0.7,
+              }}>
+              Title
+            </Text>
             <TextInput
               style={{
                 backgroundColor: '#ffffff',
@@ -207,6 +216,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               }}
               onChangeText={text => setTitle(text)}
               value={title}
+              placeholder='Eg: "How to use React Native"'
             />
           </View>
           <View
@@ -216,7 +226,15 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               borderRadius: 10,
               marginTop: 20,
             }}>
-            <Text>What are the details of your problem</Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                color: 'black',
+                opacity: 0.7,
+              }}>
+              What are the details of your problem
+            </Text>
             <TextInput
               style={{
                 backgroundColor: '#ffffff',
@@ -232,6 +250,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               value={details}
               multiline={true}
               numberOfLines={10}
+              placeholder='Eg: "I am trying to use React Native but I am getting an error"'
             />
           </View>
           <View
@@ -241,7 +260,15 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               borderRadius: 10,
               marginTop: 20,
             }}>
-            <Text>What did you try and what were you expecting</Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                color: 'black',
+                opacity: 0.7,
+              }}>
+              What did you try and what were you expecting
+            </Text>
             <TextInput
               style={{
                 backgroundColor: '#ffffff',
@@ -257,6 +284,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               value={tryDetails}
               multiline={true}
               numberOfLines={10}
+              placeholder='Eg: "I tried to use React Native but I am getting an error"'
             />
           </View>
           <View
@@ -266,7 +294,15 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               borderRadius: 10,
               marginTop: 20,
             }}>
-            <Text>Tags</Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                color: 'black',
+                opacity: 0.7,
+              }}>
+              Tags
+            </Text>
             <TextInput
               style={{
                 backgroundColor: '#ffffff',
@@ -278,6 +314,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
               }}
               onChangeText={text => setTags(text)}
               value={tags}
+              placeholder='Eg: "React-Native Hashnode Appwrite"'
             />
           </View>
           <View
@@ -305,7 +342,7 @@ const EditPost = ({navigation, route}: EditPostProps) => {
           </View>
         </ScrollView>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 

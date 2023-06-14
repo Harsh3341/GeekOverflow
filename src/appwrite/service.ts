@@ -3,10 +3,7 @@ import {Config} from '../utils/config';
 
 import Snackbar from 'react-native-snackbar';
 
-const appwriteClient = new Client();
-
-const APPWRITE_ENDPOINT = Config.APPWRITE_ENDPOINT!;
-const APPWRITE_PROJECT = Config.APPWRITE_PROJECT!;
+export const appwriteClient = new Client();
 
 type CreateUserAccount = {
   email: string;
@@ -50,7 +47,9 @@ class AppwriteService {
   database;
 
   constructor() {
-    appwriteClient.setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT);
+    appwriteClient
+      .setEndpoint(Config.APPWRITE_ENDPOINT)
+      .setProject(Config.APPWRITE_PROJECT);
 
     this.account = new Account(appwriteClient);
     this.database = new Databases(appwriteClient);

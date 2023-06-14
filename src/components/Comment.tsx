@@ -22,17 +22,13 @@ const Comment = ({setComment}: any) => {
   };
 
   return (
-    <View
-      style={{
-        backgroundColor: '#ffffff',
-        padding: 20,
-        marginTop: 20,
-        alignItems: 'center',
-      }}>
+    <>
       <Text
         style={{
-          fontSize: 15,
           color: '#000000',
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginTop: 20,
         }}
         onPress={() => setToggle(!toggle)}>
         add comment
@@ -78,7 +74,7 @@ const Comment = ({setComment}: any) => {
           </Pressable>
         </View>
       ) : null}
-    </View>
+    </>
   );
 };
 

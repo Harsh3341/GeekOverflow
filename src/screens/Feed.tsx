@@ -1,4 +1,4 @@
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, ImageBackground, Pressable} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import FeedPost from '../components/FeedPost';
 import {AppwriteContext} from '../appwrite/AppwriteContext';
@@ -7,9 +7,10 @@ import {Query} from 'appwrite';
 
 type FeedProps = {
   navigation: any;
+  route: any;
 };
 
-const Feed = ({navigation}: FeedProps) => {
+const Feed = ({navigation, route}: FeedProps) => {
   const {appwrite, stale, setStale} = useContext(AppwriteContext);
 
   const [questions, setQuestions] = useState<any[]>([]);
@@ -34,24 +35,54 @@ const Feed = ({navigation}: FeedProps) => {
   }, [stale]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#a0a0a0',
-        padding: 20,
-      }}>
-      <View>
-        <Text
+    <ImageBackground
+      source={require('../assets/Bg.jpg')}
+      resizeMode="cover"
+      blurRadius={18}
+      imageStyle={{opacity: 0.4}}>
+      <View
+        style={{
+          padding: 20,
+          height: '100%',
+          width: '100%',
+        }}>
+        <View
           style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            color: '#ffffff',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 20,
           }}>
-          Questions
-        </Text>
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: 'bold',
+              color: 'black',
+              opacity: 0.5,
+              marginBottom: 20,
+            }}>
+            Questions
+          </Text>
+          <Pressable
+            style={{
+              backgroundColor: '#000000',
+              padding: 10,
+              borderRadius: 5,
+              width: 150,
+              alignItems: 'center',
+            }}
+            onPress={() => navigation.navigate('Create')}>
+            <Text
+              style={{
+                color: '#ffffff',
+              }}>
+              Ask Question
+            </Text>
+          </Pressable>
+        </View>
         <ScrollView
           style={{
-            marginVertical: 20,
+            marginBottom: 20,
           }}
           showsVerticalScrollIndicator={false}>
           {questions.map((question: any) => (
@@ -63,7 +94,7 @@ const Feed = ({navigation}: FeedProps) => {
           ))}
         </ScrollView>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 

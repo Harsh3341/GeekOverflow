@@ -4,15 +4,18 @@ import Create from '../screens/Create';
 import Profile from '../screens/Profile';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Ionicons';
+import {useState} from 'react';
 
 const Tab = createMaterialBottomTabNavigator();
 
 const Navbar = ({navigation}: any) => {
+  const [refresh, setRefresh] = useState(false);
+
   return (
     <Tab.Navigator
       initialRouteName="Feed"
       activeColor="#000000"
-      inactiveColor="#3e2465"
+      inactiveColor="#6a6a6a"
       barStyle={{
         backgroundColor: '#ffffff',
         height: 60,
@@ -43,9 +46,7 @@ const Navbar = ({navigation}: any) => {
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: ({color}) => (
-            <Icon name="profile" color={color} size={26} />
-          ),
+          tabBarIcon: ({color}) => <Icon name="user" color={color} size={26} />,
         }}
       />
     </Tab.Navigator>
