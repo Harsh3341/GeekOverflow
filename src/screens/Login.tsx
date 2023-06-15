@@ -1,5 +1,4 @@
 import {
-  Image,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -12,12 +11,15 @@ import {AppwriteContext} from '../appwrite/AppwriteContext';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../routes/AuthStack';
 import Snackbar from 'react-native-snackbar';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const Login = ({navigation}: LoginScreenProps): JSX.Element => {
   const {appwrite, setIsLoggedIn} = useContext(AppwriteContext);
   const [error, setError] = useState<string>('');
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [credintials, setCredintials] = useState({
     email: '',
@@ -127,23 +129,40 @@ const Login = ({navigation}: LoginScreenProps): JSX.Element => {
               }}>
               Password
             </Text>
-            <TextInput
-              style={{
-                width: '100%',
-                color: 'black',
-                opacity: 0.5,
-                fontSize: 15,
-                fontWeight: 'bold',
-                borderBottomColor: 'black',
-                borderBottomWidth: StyleSheet.hairlineWidth,
-              }}
-              placeholder="Password"
-              secureTextEntry={true}
-              onChangeText={value => {
-                handleChange({target: {name: 'password', value}});
-                setError('');
-              }}
-            />
+            <View>
+              <TextInput
+                style={{
+                  width: '100%',
+                  color: 'black',
+                  opacity: 0.5,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  borderBottomColor: 'black',
+                  borderBottomWidth: StyleSheet.hairlineWidth,
+                }}
+                placeholder="Password"
+                secureTextEntry={!showPassword}
+                onChangeText={value => {
+                  handleChange({target: {name: 'password', value}});
+                  setError('');
+                }}
+              />
+              {showPassword ? (
+                <Icon
+                  name="eye-outline"
+                  size={20}
+                  style={{position: 'absolute', right: 0, top: 10}}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              ) : (
+                <Icon
+                  name="eye-off-outline"
+                  size={20}
+                  style={{position: 'absolute', right: 0, top: 10}}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              )}
+            </View>
           </View>
           <Text
             style={{

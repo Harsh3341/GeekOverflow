@@ -1,5 +1,4 @@
 import {
-  Image,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -12,6 +11,7 @@ import {AppwriteContext} from '../appwrite/AppwriteContext';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../routes/AuthStack';
 import Snackbar from 'react-native-snackbar';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type RegiterScreenProps = NativeStackScreenProps<
   AuthStackParamList,
@@ -20,6 +20,10 @@ type RegiterScreenProps = NativeStackScreenProps<
 
 const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
   const {appwrite, setIsLoggedIn} = useContext(AppwriteContext);
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
   const [error, setError] = useState<string>('');
 
@@ -166,23 +170,40 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
               }}>
               Password
             </Text>
-            <TextInput
-              style={{
-                width: '100%',
-                color: 'black',
-                opacity: 0.5,
-                fontSize: 15,
-                fontWeight: 'bold',
-                borderBottomColor: 'black',
-                borderBottomWidth: StyleSheet.hairlineWidth,
-              }}
-              placeholder="Password"
-              secureTextEntry={true}
-              onChangeText={value => {
-                handleChange({target: {name: 'password', value}});
-                setError('');
-              }}
-            />
+            <View>
+              <TextInput
+                style={{
+                  width: '100%',
+                  color: 'black',
+                  opacity: 0.5,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  borderBottomColor: 'black',
+                  borderBottomWidth: StyleSheet.hairlineWidth,
+                }}
+                placeholder="Password"
+                secureTextEntry={!showPassword}
+                onChangeText={value => {
+                  handleChange({target: {name: 'password', value}});
+                  setError('');
+                }}
+              />
+              {showPassword ? (
+                <Icon
+                  name="eye-outline"
+                  size={20}
+                  style={{position: 'absolute', right: 0, top: 10}}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              ) : (
+                <Icon
+                  name="eye-off-outline"
+                  size={20}
+                  style={{position: 'absolute', right: 0, top: 10}}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              )}
+            </View>
             <Text
               style={{
                 width: 246,
@@ -193,23 +214,40 @@ const Register = ({navigation}: RegiterScreenProps): JSX.Element => {
               }}>
               Confirm Password
             </Text>
-            <TextInput
-              style={{
-                width: '100%',
-                color: 'black',
-                opacity: 0.5,
-                fontSize: 15,
-                fontWeight: 'bold',
-                borderBottomColor: 'black',
-                borderBottomWidth: StyleSheet.hairlineWidth,
-              }}
-              placeholder="Confirm Password"
-              secureTextEntry={true}
-              onChangeText={value => {
-                handleChange({target: {name: 'confirmPassword', value}});
-                setError('');
-              }}
-            />
+            <View>
+              <TextInput
+                style={{
+                  width: '100%',
+                  color: 'black',
+                  opacity: 0.5,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  borderBottomColor: 'black',
+                  borderBottomWidth: StyleSheet.hairlineWidth,
+                }}
+                placeholder="Confirm Password"
+                secureTextEntry={!showConfirmPassword}
+                onChangeText={value => {
+                  handleChange({target: {name: 'confirmPassword', value}});
+                  setError('');
+                }}
+              />
+              {showConfirmPassword ? (
+                <Icon
+                  name="eye-outline"
+                  size={20}
+                  style={{position: 'absolute', right: 0, top: 10}}
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              ) : (
+                <Icon
+                  name="eye-off-outline"
+                  size={20}
+                  style={{position: 'absolute', right: 0, top: 10}}
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              )}
+            </View>
           </View>
           {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
           <Pressable style={styles.buttons} onPress={handleRegister}>

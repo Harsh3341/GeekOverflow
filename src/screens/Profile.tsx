@@ -101,7 +101,7 @@ const Profile = ({navigation}: any): JSX.Element => {
                 paddingHorizontal: 20,
                 paddingVertical: 10,
               }}
-              onPress={() => navigation.navigate('Create')}>
+              onPress={() => navigation.navigate('EditProfile')}>
               <Text style={{color: 'white'}}>edit profile</Text>
             </Pressable>
           </View>

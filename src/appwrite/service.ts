@@ -11,6 +11,20 @@ type CreateUserAccount = {
   name: string;
 };
 
+type updateName = {
+  name: string;
+};
+
+type updateEmail = {
+  email: string;
+  password: string;
+};
+
+type updatePassword = {
+  newPassword: string;
+  oldPassword: string;
+};
+
 type LoginUserAccount = {
   email: string;
   password: string;
@@ -78,6 +92,39 @@ class AppwriteService {
         duration: Snackbar.LENGTH_LONG,
       });
       console.log('Appwrite service :: createAccount() :: ' + error);
+    }
+  }
+
+  async updateName({name}: updateName) {
+    try {
+      const userAccount = await this.account.updateName(name);
+      return userAccount;
+    } catch (error) {
+      console.log('Appwrite service :: updateName() :: ' + error);
+      throw error;
+    }
+  }
+
+  async updateEmail({email, password}: updateEmail) {
+    try {
+      const userAccount = await this.account.updateEmail(email, password);
+      return userAccount;
+    } catch (error) {
+      console.log('Appwrite service :: updateEmail() :: ' + error);
+      throw error;
+    }
+  }
+
+  async updatePassword({newPassword, oldPassword}: updatePassword) {
+    try {
+      const userAccount = await this.account.updatePassword(
+        newPassword,
+        oldPassword,
+      );
+      return userAccount;
+    } catch (error) {
+      console.log('Appwrite service :: updatePassword() :: ' + error);
+      throw error;
     }
   }
 
