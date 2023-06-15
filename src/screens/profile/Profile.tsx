@@ -10,10 +10,10 @@ import {
 import Snackbar from 'react-native-snackbar';
 import {useContext, useEffect, useState} from 'react';
 
-import {AppwriteContext} from '../appwrite/AppwriteContext';
-import {Config} from '../utils/config';
+import {AppwriteContext} from '../../appwrite/AppwriteContext';
+import {Config} from '../../utils/config';
 import {Query} from 'appwrite';
-import UserPost from '../components/UserPost';
+import UserPost from '../../components/UserPost';
 
 const Profile = ({navigation}: any): JSX.Element => {
   const {appwrite, setIsLoggedIn, user, setUser, stale, setStale} =

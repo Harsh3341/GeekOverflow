@@ -5,12 +5,12 @@ import {AppwriteContext} from '../appwrite/AppwriteContext';
 import Snackbar from 'react-native-snackbar';
 import {Config} from '../utils/config';
 import {UpdateDocument} from '../appwrite/service';
-import Loading from './Loading';
+import Loading from '../components/Loading';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppStackParamList} from '../routes/AppStack';
 import {Query} from 'appwrite';
 
-type EditPostProps = NativeStackScreenProps<AppStackParamList, 'Edit'>;
+type EditPostProps = NativeStackScreenProps<AppStackParamList, 'EditPost'>;
 
 const EditPost = ({navigation, route}: EditPostProps) => {
   const {appwrite, user, setStale} = useContext(AppwriteContext);

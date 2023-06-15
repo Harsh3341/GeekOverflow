@@ -8,9 +8,9 @@ import {
   Image,
 } from 'react-native';
 import {useContext, useEffect, useState} from 'react';
-import {AppwriteContext} from '../appwrite/AppwriteContext';
+import {AppwriteContext} from '../../appwrite/AppwriteContext';
 import Snackbar from 'react-native-snackbar';
-import {Config} from '../utils/config';
+import {Config} from '../../utils/config';
 
 const EditProfile = () => {
   const {appwrite, setIsLoggedIn, user, setUser, stale, setStale} =

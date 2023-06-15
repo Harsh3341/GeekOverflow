@@ -1,14 +1,14 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Navbar from '../components/Navbar';
-import Post from '../components/Post';
-import EditPost from '../components/EditPost';
-import EditProfile from '../components/EditProfile';
+import Post from '../screens/Post';
+import EditPost from '../screens/EditPost';
+import EditProfile from '../screens/profile/EditProfile';
 
 export type AppStackParamList = {
   Navbar: undefined;
   Post: undefined;
-  Edit: {question: any};
+  EditPost: {question: any};
   EditProfile: undefined;
 };
 
@@ -28,7 +28,7 @@ export const AppStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="Edit"
+        name="EditPost"
         component={EditPost}
         options={{headerShown: false}}
       />

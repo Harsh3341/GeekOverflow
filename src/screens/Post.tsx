@@ -10,7 +10,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppStackParamList} from '../routes/AppStack';
 import {Divider} from 'react-native-paper';
-import Comment from './Comment';
+import Comment from '../components/Comment';
 import {AppwriteContext} from '../appwrite/AppwriteContext';
 import {Config} from '../utils/config';
 import {Permission, Query, Role} from 'appwrite';
@@ -118,7 +118,7 @@ const Post = ({navigation, route}: PostProps) => {
                     width: '20%',
                     alignItems: 'center',
                   }}
-                  onPress={() => navigation.navigate('Edit', {question})}>
+                  onPress={() => navigation.navigate('EditPost', {question})}>
                   <Text
                     style={{
                       color: '#ffffff',

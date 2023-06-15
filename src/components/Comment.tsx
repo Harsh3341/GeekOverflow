@@ -1,7 +1,7 @@
 import {View, Text, Pressable, TextInput} from 'react-native';
 import React, {useContext, useState} from 'react';
 import {AppwriteContext} from '../appwrite/AppwriteContext';
-import {Comments} from './Post';
+import {Comments} from '../screens/Post';
 
 const Comment = ({setComment}: any) => {
   const [toggle, setToggle] = useState(false);

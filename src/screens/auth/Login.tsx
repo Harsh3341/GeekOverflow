@@ -7,9 +7,9 @@ import {
   View,
 } from 'react-native';
 import {useContext, useState} from 'react';
-import {AppwriteContext} from '../appwrite/AppwriteContext';
+import {AppwriteContext} from '../../appwrite/AppwriteContext';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthStackParamList} from '../routes/AuthStack';
+import {AuthStackParamList} from '../../routes/AuthStack';
 import Snackbar from 'react-native-snackbar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
