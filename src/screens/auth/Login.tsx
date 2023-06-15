@@ -57,7 +57,7 @@ const Login = ({navigation}: LoginScreenProps): JSX.Element => {
   };
   return (
     <ImageBackground
-      source={require('../assets/Bg.jpg')}
+      source={require('../../assets/Bg.jpg')}
       resizeMode="cover"
       blurRadius={10}
       imageStyle={{opacity: 0.5}}>

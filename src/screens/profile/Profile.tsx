@@ -56,7 +56,7 @@ const Profile = ({navigation}: any): JSX.Element => {
 
   return (
     <ImageBackground
-      source={require('../assets/Bg.jpg')}
+      source={require('../../assets/Bg.jpg')}
       resizeMode="cover"
       blurRadius={18}
       imageStyle={{opacity: 0.4}}>
@@ -79,7 +79,7 @@ const Profile = ({navigation}: any): JSX.Element => {
               marginBottom: 20,
             }}>
             <Image
-              source={require('../assets/art.png')}
+              source={require('../../assets/art.png')}
               style={{height: 50, width: 50, borderRadius: 25}}
             />
             <View style={{marginLeft: 20}}>
